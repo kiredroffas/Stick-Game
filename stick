@@ -1,0 +1,119 @@
+#!/bin/bash
+
+# Erik Safford
+# Stick Game
+# October 2017
+
+numstick=$1		#Set initial command line argument to numstick        
+echo "Welcome to STICK GAME! Each player takes a turn taking 1,2,or 3 sticks. The person who takes the last stick wins!"
+
+if [[ numstick -ne "" ]]                                    #If numstick doesnt equal nothing
+  then
+    echo " You are playing with $numstick sticks."              #Echo how many sticks are being played with
+    for ((i=0;i<numstick;i++))
+      do
+        echo -n "|"                                             #Echo numstick sticks and #
+      done
+      echo "($numstick)"
+  else
+    echo "What number of sticks would you like to play with?"  #Else promt how many sticks to play with
+      read numstick                                            #Read in numstick
+        if [[ numstick -eq "" ]]                               #If numstick still equals 0
+          then
+            echo -n "FAIL"                                     #Echo fail and exit
+            exit
+          else
+            echo "You are playing with $numstick sticks."      #Echo how many sticks are being played with
+            for ((i=0;i<numstick;i++))
+              do
+                echo -n "|"                                    #Echo numstick sticks and #
+            done
+            echo "($numstick)"
+        fi
+fi
+
+
+#######################################
+
+while [[ numstick -gt 0 ]]                                     #While numstick is greater then 0
+  do
+    take=$((numstick%4))                                       #Set (numstick mod 4) = take
+  
+if [[ take -eq 0 ]]                                            #If take = 0
+  then
+    echo "I will take 1 stick!"                                #Echo I will take 1 stick
+      numstick=$(($numstick-1))                                #New numstick = numstick - 1
+        for ((i=0;i<numstick;i++))
+          do
+            echo -n "|"                                        #Echo numstick sticks and #
+        done
+        echo "($numstick)"
+          if [[ numstick -le 0 ]]                              #If numstick = 0, echo comp wins and exit
+            then
+              echo "I win human!"
+              exit
+          fi
+        echo "How many sticks would you like to take?"         #Echo how many sticks the user would like to take
+          read sticktake                                          #Read number of sticks to be taken
+            if [[ $sticktake -gt 3 ]] || [[ $sticktake -lt 1 ]]          #If sticktake is a number other then 1,2,or 3
+              then
+                echo "You can take only 1, 2, or 3 sticks, don't cheat!"   #Echo error and read number of stick again
+                read sticktake
+                  if [[ $sticktake -gt 3 ]] || [[ $sticktake -lt 1 ]]     #If input is still invalid exit program                               
+                    then
+                      echo "GAME OVER, cheaters never win!"
+                      exit
+                  fi
+            fi
+          numstick=$((numstick-$sticktake))                      #Number of sticks = numstick - sticks taken
+            for ((i=0;i<numstick;i++))
+              do
+                echo -n "|"                                      #Echo numstick stick and #
+            done
+            echo "($numstick)"
+              if [[ numstick -le 0 ]]                           #If numstick = 0, echo user wins and exit
+                then
+                  echo "Well played, you win!"
+              fi
+
+elif [[ take -gt 0 ]]                                          #Else if take is greater then 0 
+  then 
+    echo "I will take $take stick(s)!"                          #Echo comp will take $take sticks
+      numstick=$((numstick-take))                             #Number of sticks = numstick - sticks taken
+        for ((i=0;i<numstick;i++))
+          do
+            echo -n "|"                                       #Echo numstick sticks and #
+        done
+        echo "($numstick)"
+          if [[ numstick -le 0 ]]                             #If numstick = 0, echo comp wins
+            then
+              echo "I win human!"
+              exit
+          fi
+        echo "How many sticks would you like to take?"               #Echo how many sticks user wants to take and read sticktake
+          read sticktake  
+            if [[ $sticktake -gt 3 ]] || [[ $sticktake -lt 1 ]]         #If sticktake is invalid input, give error
+              then
+                echo "You can only take 1, 2, or 3 sticks, don't cheat!"
+                read sticktake                                           #Read sticktake again
+                  if [[ sticktake -gt 3 ]] || [[ $sticktake -lt 1 ]]     #If still invalid input, echo and exit
+                    then
+                       echo "GAME OVER, cheaters never win!"
+                       exit
+                  fi
+            fi
+          numstick=$((numstick-$sticktake))                           #Number of sticks = numstick - sticks taken
+            for ((i=0;i<numstick;i++))
+              do
+                echo -n "|"                                                #Echo numstick and #
+            done
+            echo "($numstick)"
+              if [[ numstick -le 0 ]]                                  #If numstick = 0, echo user wins and exit
+                then
+                  echo "Well played, you win!"
+                  exit
+              fi
+  
+fi
+
+done      
